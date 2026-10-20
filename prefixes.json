@@ -1,0 +1,63 @@
+{
+  "$schema": "./schema.json",
+  "version": "0.1.0",
+  "updated_at": "2026-10-20",
+  "country": "CU",
+  "card_length": 16,
+  "check_digit": "luhn",
+  "normalize": {
+    "strip": [" ", "-", "."],
+    "notes": "Quitar espacios, guiones y puntos. Lo que queda debe ser solo dígitos."
+  },
+  "structure": {
+    "RED": [
+      { "from": 1, "to": 2, "field": "network", "value": "92", "sources": ["community_catalog"] },
+      { "from": 3, "to": 4, "field": "product", "sources": ["bandec_post", "community_catalog"] },
+      { "from": 5, "to": 8, "field": "issuer", "sources": ["cardholder_report"], "notes": "El catálogo comunitario solo da el código del banco en los dígitos 5–6 y pone una sucursal en los 7–9. Los titulares de BANDEC y BPA confirman que los dígitos 5–8 son fijos por banco." },
+      { "from": 9, "to": 15, "field": "account" },
+      { "from": 16, "to": 16, "field": "check_digit", "algorithm": "luhn", "sources": ["iso_7812"] }
+    ]
+  },
+  "issuers": [
+    { "id": "BANDEC", "name": "Banco de Crédito y Comercio", "network": "RED", "code": "0699", "sources": ["cardholder_report", "community_catalog"], "notes": null },
+    { "id": "BPA", "name": "Banco Popular de Ahorro", "network": "RED", "code": "1299", "sources": ["cardholder_report", "community_catalog"], "notes": null },
+    { "id": "METROPOLITANO", "name": "Banco Metropolitano", "network": "RED", "code": "95", "sources": ["community_catalog"], "notes": "Código parcial: solo se conocen los dígitos 5–6." },
+    { "id": "BICSA", "name": "Banco Internacional de Comercio S.A.", "network": "RED", "code": "04", "sources": ["community_catalog"], "notes": "Código parcial: solo se conocen los dígitos 5–6." },
+    { "id": "FINCIMEX", "name": "Financiera CIMEX S.A.", "network": null, "code": null, "sources": ["community_catalog"], "notes": "Emisora de la tarjeta Clásica, que no sigue la estructura RED." }
+  ],
+  "prefixes": [
+    { "prefix": "9200", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": "El catálogo comunitario la describe como «Tarjeta en CUP», sin propósito concreto." },
+    { "prefix": "9202", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
+    { "prefix": "9204", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Nómina, fondos, ahorro", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9205", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Ahorro", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9206", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Jubilación", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9210", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Colaboradores", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog", "cardholder_report"], "notes": null },
+    { "prefix": "9211", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Colaboradores", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog", "cardholder_report"], "notes": null },
+    { "prefix": "9212", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Trabajadores por cuenta propia (TCP)", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9213", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Trabajadores por cuenta propia (TCP)", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9216", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Subsidios", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9224", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Nómina, fondos, ahorro", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9227", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Nómina, fondos, ahorro", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9233", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "MIPYMES / cooperativas no agropecuarias", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9234", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
+    { "prefix": "9237", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": "Agricultores / usufructuarios", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9238", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
+    { "prefix": "9244", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
+    { "prefix": "9248", "network": "RED", "currency": "CUP", "mlc_backed": false, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
+    { "prefix": "9225", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "Ahorro de personas naturales", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9226", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "TCP / productores agropecuarios", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9228", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "Cooperativas / MIPYMES", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9229", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "Otras entidades", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": "El catálogo comunitario la describe como «Personas jurídicas»." },
+    { "prefix": "9235", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "Ahorro de personas naturales", "aliases": [], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": null },
+    { "prefix": "9240", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "Ahorro de personas naturales", "aliases": ["Tropical"], "issuers": ["BANDEC"], "sources": ["bandec_post", "community_catalog"], "notes": "BANDEC la agrupa con las tarjetas en USD con respaldo en MLC. El catálogo comunitario la llama «Tropical» y la clasifica como prepago en USD." },
+    { "prefix": "9245", "network": "RED", "currency": "USD", "mlc_backed": true, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
+    { "prefix": "9250", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "Cooperativas / MIPYMES", "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
+    { "prefix": "9760", "network": null, "currency": "USD", "mlc_backed": false, "product": "Clásica", "aliases": [], "issuers": ["FINCIMEX"], "sources": ["community_catalog"], "notes": "No sigue la estructura RED: los dígitos 5–8 no son un código de banco." }
+  ],
+  "sources": [
+    { "id": "bandec_post", "short": "B", "kind": "social_post", "title": "¿Sabías que los dígitos de tu tarjeta Bandec revelan su propósito?", "url": null, "notes": "Publicación atribuida a BANDEC sobre los dígitos 3–4 de sus tarjetas." },
+    { "id": "community_catalog", "short": "C", "kind": "community_catalog", "title": "Cuban Bank Card Prefixes v1.0.0 (2026-06-20)", "url": null, "notes": "Catálogo comunitario. Para la estructura del número cita el documento «Tomo 2 Digital»." },
+    { "id": "cardholder_report", "short": "T", "kind": "cardholder_report", "title": "Titulares de tarjeta", "url": null, "notes": "Titulares que confirman el código de banco de BANDEC (0699) y BPA (1299) y tarjetas BANDEC 9210 y 9211." },
+    { "id": "iso_7812", "short": "ISO", "kind": "standard", "title": "ISO/IEC 7812-1: números de identificación de tarjetas", "url": "https://en.wikipedia.org/wiki/ISO/IEC_7812", "notes": "El último dígito de un número de tarjeta es un dígito de control Luhn." }
+  ]
+}

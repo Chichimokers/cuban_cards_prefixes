@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/qvapay/cuban_cards_prefixes/main/schema.json",
+  "title": "Cuban card prefixes",
+  "description": "Esquema de prefixes.json.",
+  "type": "object",
+  "required": ["version", "updated_at", "country", "card_length", "check_digit", "normalize", "structure", "issuers", "prefixes", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "updated_at": { "type": "string", "format": "date" },
+    "country": { "const": "CU" },
+    "card_length": { "const": 16 },
+    "check_digit": { "const": "luhn" },
+    "normalize": {
+      "type": "object",
+      "required": ["strip"],
+      "additionalProperties": false,
+      "properties": {
+        "strip": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 1 } },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["from", "to", "field"],
+          "additionalProperties": false,
+          "properties": {
+            "from": { "type": "integer", "minimum": 1, "maximum": 16 },
+            "to": { "type": "integer", "minimum": 1, "maximum": 16 },
+            "field": { "type": "string" },
+            "value": { "type": "string", "pattern": "^\\d+$" },
+            "algorithm": { "type": "string" },
+            "sources": { "$ref": "#/$defs/sourceList" },
+            "notes": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+    "issuers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "network", "code", "sources", "notes"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/issuerId" },
+          "name": { "type": "string" },
+          "network": { "enum": ["RED", null] },
+          "code": {
+            "type": ["string", "null"],
+            "pattern": "^\\d{2,4}$",
+            "description": "Código del banco a partir del dígito 5. Si tiene menos de 4 dígitos, el resto no se conoce."
+          },
+          "sources": { "$ref": "#/$defs/sourceList" },
+          "notes": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "prefixes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["prefix", "network", "currency", "mlc_backed", "product", "aliases", "issuers", "sources", "notes"],
+        "additionalProperties": false,
+        "properties": {
+          "prefix": { "type": "string", "pattern": "^\\d{4}$", "description": "Dígitos 1–4." },
+          "network": { "enum": ["RED", null] },
+          "currency": { "enum": ["CUP", "USD"] },
+          "mlc_backed": { "type": ["boolean", "null"], "description": "USD con respaldo en MLC, en la terminología de BANDEC. null = no se sabe." },
+          "product": { "type": ["string", "null"], "description": "null = producto sin identificar." },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "issuers": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/issuerId" },
+            "uniqueItems": true,
+            "description": "Bancos en los que una fuente confirma este producto. No es una lista exclusiva."
+          },
+          "sources": { "$ref": "#/$defs/sourceList" },
+          "notes": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "short", "kind", "title", "url", "notes"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "short": { "type": "string", "maxLength": 4, "description": "Abreviatura para las tablas del README." },
+          "kind": { "enum": ["official", "social_post", "community_catalog", "cardholder_report", "standard"] },
+          "title": { "type": "string" },
+          "url": { "type": ["string", "null"], "format": "uri" },
+          "notes": { "type": ["string", "null"] }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "issuerId": { "enum": ["BANDEC", "BPA", "METROPOLITANO", "BICSA", "FINCIMEX"] },
+    "sourceList": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true }
+  }
+}

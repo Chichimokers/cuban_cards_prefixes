@@ -1,0 +1,60 @@
+name: Nuevo prefijo o corrección
+description: Aporta un prefijo, un banco o un producto que falta, o corrige uno que está mal.
+title: "[prefijo] "
+labels: ["datos"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **Nunca escribas un número de tarjeta completo.** Bastan los 8 primeros dígitos.
+  - type: input
+    id: prefix
+    attributes:
+      label: Primeros dígitos
+      description: Solo los 4 u 8 primeros.
+      placeholder: "9205 0699"
+    validations:
+      required: true
+  - type: dropdown
+    id: bank
+    attributes:
+      label: Banco
+      options:
+        - BANDEC
+        - BPA
+        - Banco Metropolitano
+        - BICSA
+        - Otro
+        - No lo sé
+    validations:
+      required: true
+  - type: dropdown
+    id: currency
+    attributes:
+      label: Moneda
+      options:
+        - CUP
+        - USD con respaldo en MLC
+        - USD
+        - No lo sé
+    validations:
+      required: true
+  - type: input
+    id: product
+    attributes:
+      label: Producto o propósito
+      description: Por ejemplo nómina, ahorro, TCP, MIPYME, jubilación.
+  - type: textarea
+    id: source
+    attributes:
+      label: Fuente
+      description: Un enlace, un documento o «tengo esta tarjeta».
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacidad
+      options:
+        - label: No he escrito ningún número de tarjeta completo ni datos personales.
+          required: true

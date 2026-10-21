@@ -74,11 +74,7 @@ const baseKeys = new Set(['any', 'red', 'cup', 'usd', 'usd_mlc', ...nonRed.map(p
 const variantPatterns = {}
 const variantMap = {}
 for (const p of nonRed) for (const v of p.variants ?? []) {
-  variantMap[v.prefix] = {
-    issuer: p.issuers[0] ?? null,
-    product: v.product,
-    ...(v.aliases.length ? { aliases: v.aliases } : {}),
-  }
+  variantMap[v.prefix] = { product: v.product, aliases: v.aliases, issuers: p.issuers }
   const key = productKey(v.product)
   if (key === productKey(p.product)) continue
   if (baseKeys.has(key) || key in variantPatterns) { fail(`${v.prefix}: la clave de patrón ${key} está repetida`); continue }

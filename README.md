@@ -8,7 +8,7 @@
 Un catálogo abierto, con sus fuentes, y validadores listos para usar en cualquier lenguaje.
 
 <!-- badges:start -->
-![prefijos](https://img.shields.io/badge/prefijos-27-0ea5e9) ![emisores](https://img.shields.io/badge/emisores-5-6366f1) ![versión](https://img.shields.io/badge/versi%C3%B3n-0.3.0-22c55e) ![dependencias](https://img.shields.io/badge/dependencias-0-f59e0b) [![licencia](https://img.shields.io/badge/licencia-MIT-64748b)](LICENSE) [![check](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml/badge.svg)](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml)
+![prefijos](https://img.shields.io/badge/prefijos-27-0ea5e9) ![emisores](https://img.shields.io/badge/emisores-5-6366f1) ![versión](https://img.shields.io/badge/versi%C3%B3n-0.3.1-22c55e) ![dependencias](https://img.shields.io/badge/dependencias-0-f59e0b) [![licencia](https://img.shields.io/badge/licencia-MIT-64748b)](LICENSE) [![check](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml/badge.svg)](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml)
 <!-- badges:end -->
 
 [Inicio rápido](#-inicio-rápido) · [Anatomía](#-anatomía-de-una-tarjeta) · [Prefijos](#-prefijos) · [Validar](#-validar-un-número) · [Formato](#-formato-de-los-datos) · [Versiones](#-versiones-y-compatibilidad) · [Contribuir](#-contribuir) · [English](#-english)
@@ -103,7 +103,7 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 | **`9213`** | Trabajadores por cuenta propia (TCP) | BANDEC | B · C |
 | **`9216`** | Subsidios | BANDEC | B · C |
 | **`9224`** | Nómina, fondos, ahorro | BANDEC | B · C |
-| **`9227`** | Nómina, fondos, ahorro | BANDEC | B · C |
+| **`9227`** | Nómina, fondos, ahorro ² | BANDEC, Metropolitano | B · C · T |
 | **`9233`** | MIPYMES / cooperativas no agropecuarias | BANDEC | B · C |
 | **`9234`** | Nómina | BANDEC, Metropolitano | C · T |
 | **`9237`** | Agricultores / usufructuarios | BANDEC | B · C |
@@ -112,6 +112,8 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 | **`9248`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9248) | — | C |
 
 > ¹ **`9200`**: El catálogo comunitario la describe como «Tarjeta en CUP», sin propósito concreto.
+>
+> ² **`9227`**: Una tarjeta real con dígitos 9227 9598 confirma que también se emite en Banco Metropolitano (issue #8).
 
 ### 💵 USD con respaldo en MLC
 
@@ -367,7 +369,7 @@ https://cdn.jsdelivr.net/gh/qvapay/cuban_cards_prefixes@v0.3.0/validators.json
 |:-:|---|---|
 | **B** | ¿Sabías que los dígitos de tu tarjeta Bandec revelan su propósito? | Publicación atribuida a BANDEC sobre los dígitos 3–4 de sus tarjetas. |
 | **C** | Cuban Bank Card Prefixes v1.0.0 (2026-06-20) | Catálogo comunitario. Para la estructura del número cita el documento «Tomo 2 Digital». |
-| **T** | Titulares de tarjeta | Titulares que confirman el código de banco de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598), las tarjetas BANDEC 9210 y 9211, la 9234 de nómina en BANDEC y Banco Metropolitano, la 9238 de ahorro en BPA y la Clásica 976003 (issues #1, #2 y #4; PR #6). |
+| **T** | Titulares de tarjeta | Titulares que confirman el código de banco de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598), las tarjetas BANDEC 9210 y 9211, la 9234 de nómina en BANDEC y Banco Metropolitano, la 9238 de ahorro en BPA, la Clásica 976003 (issues #1, #2 y #4; PR #6) y la 9227 de nómina en Banco Metropolitano (issue #8). |
 | **F** | [Kubaforum: «Überweisung mit Sparkasse auf BPA-Konto»](https://www.kubaforum.eu/artikel/ueberweisung-mit-sparkasse-auf-bpa-konto.35643/) | Hilo de foro en alemán (diciembre de 2023). Da los dígitos 5–8 de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598). Aportado en el issue #3. |
 | **CE** | [Informa Financiera CIMEX S.A. sobre ampliación de posibilidades de uso de tarjeta Clásica Empresarial](http://www.cubadebate.cu/noticias/2025/04/04/informa-financiera-cimex-s-a-sobre-ampliacion-de-posibilidades-de-uso-de-tarjeta-clasica-empresarial/) | Confirma la existencia de la Clásica Empresarial de FINCIMEX; no publica el prefijo 976004. |
 | **ISO** | [ISO/IEC 7812-1: números de identificación de tarjetas](https://en.wikipedia.org/wiki/ISO/IEC_7812) | El último dígito de un número de tarjeta es un dígito de control Luhn. |

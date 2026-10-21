@@ -8,7 +8,7 @@
 Un catálogo abierto, con sus fuentes, y validadores listos para usar en cualquier lenguaje.
 
 <!-- badges:start -->
-![prefijos](https://img.shields.io/badge/prefijos-27-0ea5e9) ![emisores](https://img.shields.io/badge/emisores-5-6366f1) ![versión](https://img.shields.io/badge/versi%C3%B3n-0.1.0-22c55e) ![dependencias](https://img.shields.io/badge/dependencias-0-f59e0b) [![licencia](https://img.shields.io/badge/licencia-MIT-64748b)](LICENSE) [![check](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml/badge.svg)](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml)
+![prefijos](https://img.shields.io/badge/prefijos-27-0ea5e9) ![emisores](https://img.shields.io/badge/emisores-5-6366f1) ![versión](https://img.shields.io/badge/versi%C3%B3n-0.2.0-22c55e) ![dependencias](https://img.shields.io/badge/dependencias-0-f59e0b) [![licencia](https://img.shields.io/badge/licencia-MIT-64748b)](LICENSE) [![check](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml/badge.svg)](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml)
 <!-- badges:end -->
 
 [Inicio rápido](#-inicio-rápido) · [Anatomía](#-anatomía-de-una-tarjeta) · [Prefijos](#-prefijos) · [Validar](#-validar-un-número) · [Formato](#-formato-de-los-datos) · [Contribuir](#-contribuir) · [English](#-english)
@@ -79,7 +79,7 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 |---|:-:|---|
 | **BANDEC** · Banco de Crédito y Comercio | `0699` | `issuers.BANDEC` |
 | **BPA** · Banco Popular de Ahorro | `1299` | `issuers.BPA` |
-| **Banco Metropolitano** | `95··` (parcial) | `issuers.METROPOLITANO` |
+| **Banco Metropolitano** | `9598` | `issuers.METROPOLITANO` |
 | **BICSA** · Banco Internacional de Comercio S.A. | `04··` (parcial) | `issuers.BICSA` |
 | **FINCIMEX** · Financiera CIMEX S.A. | — | `patterns.clasica` |
 <!-- banks:end -->
@@ -104,9 +104,9 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 | **`9224`** | Nómina, fondos, ahorro | BANDEC | B · C |
 | **`9227`** | Nómina, fondos, ahorro | BANDEC | B · C |
 | **`9233`** | MIPYMES / cooperativas no agropecuarias | BANDEC | B · C |
-| **`9234`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9234) | — | C |
+| **`9234`** | Nómina | BANDEC, Metropolitano | C · T |
 | **`9237`** | Agricultores / usufructuarios | BANDEC | B · C |
-| **`9238`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9238) | — | C |
+| **`9238`** | Ahorro | BPA | C · T |
 | **`9244`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9244) | — | C |
 | **`9248`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9248) | — | C |
 
@@ -343,14 +343,15 @@ En `issuers`, el campo `code` son los dígitos del banco a partir de la posició
 |:-:|---|---|
 | **B** | ¿Sabías que los dígitos de tu tarjeta Bandec revelan su propósito? | Publicación atribuida a BANDEC sobre los dígitos 3–4 de sus tarjetas. |
 | **C** | Cuban Bank Card Prefixes v1.0.0 (2026-06-20) | Catálogo comunitario. Para la estructura del número cita el documento «Tomo 2 Digital». |
-| **T** | Titulares de tarjeta | Titulares que confirman el código de banco de BANDEC (0699) y BPA (1299) y tarjetas BANDEC 9210 y 9211. |
+| **T** | Titulares de tarjeta | Titulares que confirman el código de banco de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598), las tarjetas BANDEC 9210 y 9211, la 9234 de nómina en BANDEC y Banco Metropolitano, y la 9238 de ahorro en BPA (issues #1, #2 y #4). |
+| **F** | [Kubaforum: «Überweisung mit Sparkasse auf BPA-Konto»](https://www.kubaforum.eu/artikel/ueberweisung-mit-sparkasse-auf-bpa-konto.35643/) | Hilo de foro en alemán (diciembre de 2023). Da los dígitos 5–8 de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598). Aportado en el issue #3. |
 | **ISO** | [ISO/IEC 7812-1: números de identificación de tarjetas](https://en.wikipedia.org/wiki/ISO/IEC_7812) | El último dígito de un número de tarjeta es un dígito de control Luhn. |
 <!-- sources:end -->
 
 ## 🔍 Ayúdanos a completarlo
 
 - El producto de los prefijos marcados como _Sin identificar_ en las tablas.
-- Los dígitos 7–8 de Banco Metropolitano y de BICSA.
+- Los dígitos 7–8 de BICSA.
 - Si `9240` («Tropical») es una cuenta en USD con respaldo en MLC, como la agrupa BANDEC, o un prepago en USD, como dice el catálogo comunitario.
 - La entidad emisora de la Clásica y qué significan sus dígitos 5–8.
 - El enlace a la publicación de BANDEC.
@@ -379,7 +380,7 @@ An open catalog of **Cuban bank card prefixes**: which product, currency and ban
 - [`validators.json`](validators.json): regular expressions generated from the catalog, by currency (`cup`, `usd`, `usd_mlc`, `clasica`, `any`) and by bank (`BANDEC`, `BPA`, `METROPOLITANO`, `BICSA`).
 - [`schema.json`](schema.json): JSON Schema 2020-12 for `prefixes.json`.
 
-Cards on the Cuban **RED** network have 16 digits: digits 1–2 are the network (`92`), 3–4 the product and currency, 5–8 the bank (`0699` BANDEC, `1299` BPA), 9–15 the account and 16 a Luhn check digit.
+Cards on the Cuban **RED** network have 16 digits: digits 1–2 are the network (`92`), 3–4 the product and currency, 5–8 the bank (`0699` BANDEC, `1299` BPA, `9598` Banco Metropolitano), 9–15 the account and 16 a Luhn check digit.
 
 To validate a number: strip spaces, hyphens and dots (`normalize.strip_pattern`), match it against a pattern and check the Luhn digit. See the code samples above.
 

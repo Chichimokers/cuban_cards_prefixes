@@ -24,6 +24,7 @@ body:
         - BPA
         - Banco Metropolitano
         - BICSA
+        - FINCIMEX (Clásica)
         - Otro
         - No lo sé
     validations:

@@ -27,6 +27,17 @@ for (const p of data.prefixes) {
   for (const id of p.issuers) if (!issuerIds.has(id)) fail(`${p.prefix}: banco desconocido ${id}`)
   if (!p.sources.length) fail(`${p.prefix}: sin fuentes`)
   for (const id of p.sources) if (!sourceIds.has(id)) fail(`${p.prefix}: fuente desconocida ${id}`)
+  if (p.network === 'RED' && p.variants?.length) fail(`${p.prefix}: variants solo se usa en productos que no siguen la estructura RED`)
+  for (const v of p.variants ?? []) {
+    if (!/^\d{6}$/.test(v.prefix)) fail(`${v.prefix}: el prefijo de una variante debe tener 6 dígitos`)
+    else if (!v.prefix.startsWith(p.prefix)) fail(`${v.prefix}: una variante de ${p.prefix} empieza por ${p.prefix}`)
+    if (seen.has(v.prefix)) fail(`${v.prefix}: prefijo o variante duplicada`)
+    seen.add(v.prefix)
+    if (!v.product) fail(`${v.prefix}: la variante necesita producto`)
+    if (!Array.isArray(v.aliases)) fail(`${v.prefix}: aliases debe ser una lista`)
+    if (!Array.isArray(v.sources) || !v.sources.length) fail(`${v.prefix}: variante sin fuentes`)
+    for (const id of v.sources ?? []) if (!sourceIds.has(id)) fail(`${v.prefix}: fuente desconocida ${id}`)
+  }
 }
 for (const i of data.issuers) {
   if (i.code !== null && !/^\d{2,4}$/.test(i.code)) fail(`${i.id}: el código debe tener de 2 a 4 dígitos`)
@@ -46,6 +57,7 @@ const anchor = (parts) => {
   const list = parts.flat().filter(Boolean)
   return list.length === 1 ? `^${list[0]}$` : `^(?:${list.join('|')})$`
 }
+const productKey = (product) => product.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, '_')
 
 const redProducts = data.prefixes.filter(p => p.network === 'RED')
 const nonRed = data.prefixes.filter(p => p.network !== 'RED')
@@ -55,6 +67,23 @@ const group = ({ red: r, other: o }) => anchor([red(r), other(o)])
 const cup = by(p => p.currency === 'CUP')
 const usd = by(p => p.currency === 'USD')
 const usdMlc = by(p => p.currency === 'USD' && p.mlc_backed === true)
+
+// Patrones propios de las variantes de un producto no RED (p. ej. 976004, Clásica empresarial).
+// La variante que comparte producto con su prefijo (976003) ya la cubre el patrón del prefijo.
+const baseKeys = new Set(['any', 'red', 'cup', 'usd', 'usd_mlc', ...nonRed.map(p => productKey(p.product))])
+const variantPatterns = {}
+const variantMap = {}
+for (const p of nonRed) for (const v of p.variants ?? []) {
+  variantMap[v.prefix] = {
+    issuer: p.issuers[0] ?? null,
+    product: v.product,
+    ...(v.aliases.length ? { aliases: v.aliases } : {}),
+  }
+  const key = productKey(v.product)
+  if (key === productKey(p.product)) continue
+  if (baseKeys.has(key) || key in variantPatterns) { fail(`${v.prefix}: la clave de patrón ${key} está repetida`); continue }
+  variantPatterns[key] = anchor([`${v.prefix}${D(LEN - v.prefix.length)}`])
+}
 
 const validators = {
   generated_from: 'prefixes.json',
@@ -69,9 +98,11 @@ const validators = {
     cup: group(cup),
     usd: group(usd),
     usd_mlc: group(usdMlc),
-    ...Object.fromEntries(nonRed.map(p => [p.product.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(), anchor([other([p])])])),
+    ...Object.fromEntries(nonRed.map(p => [productKey(p.product), anchor([other([p])])])),
+    ...variantPatterns,
   },
   issuers: Object.fromEntries(redIssuers.map(i => [i.id, anchor([red(redProducts, [i])])])),
+  variants: variantMap,
 }
 
 // --- Autocomprobación con números sintéticos ---------------------------------------------
@@ -102,6 +133,12 @@ expect(fill('9205' + '7777'), 'any', false, 'un banco desconocido')
 expect(fill('9299' + redIssuers[0].code), 'any', false, 'un producto desconocido')
 expect(fill('9205' + redIssuers[0].code).slice(1), 'any', false, '15 dígitos')
 
+// La Clásica (976003) la cubre el patrón del prefijo; 976004, el de su variante.
+expect(fill('976003'), 'clasica', true, '976003 (Clásica)')
+expect(fill('976004'), 'clasica', true, '976004 (Clásica empresarial)')
+expect(fill('976004'), 'clasica_empresarial', true, '976004')
+expect(fill('976003'), 'clasica_empresarial', false, '976003')
+
 // --- Tablas del README (entre marcadores <!-- nombre:start --> y <!-- nombre:end -->) -----
 const REPO = 'https://github.com/qvapay/cuban_cards_prefixes'
 const short = Object.fromEntries(data.sources.map(s => [s.id, s.short]))
@@ -116,10 +153,12 @@ const groups = [
 ]
 const SUP = ['¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
 const prefixRow = (p, mark) => {
+  const variants = p.variants?.length ? ` · ${p.variants.map(v => `\`${v.prefix}\` ${v.product}`).join(' / ')}` : ''
   const product = p.product
-    ? p.product + (p.aliases.length ? ` · «${p.aliases.join('», «')}»` : '')
+    ? p.product + (p.aliases.length ? ` · «${p.aliases.join('», «')}»` : '') + variants
     : `_Sin identificar_ · ${askLink(p.prefix)}`
-  return `| **\`${p.prefix}\`** | ${product}${mark ? ` ${mark}` : ''} | ${p.issuers.map(id => issuerName[id]).join(', ') || '—'} | ${p.sources.map(id => short[id]).join(' · ')} |`
+  const sourceIds = [...new Set([...p.sources, ...(p.variants ?? []).flatMap(v => v.sources)])]
+  return `| **\`${p.prefix}\`** | ${product}${mark ? ` ${mark}` : ''} | ${p.issuers.map(id => issuerName[id]).join(', ') || '—'} | ${sourceIds.map(id => short[id]).join(' · ')} |`
 }
 const prefixTables = groups.map(g => {
   const list = data.prefixes.filter(g.match)

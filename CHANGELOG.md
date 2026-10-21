@@ -2,6 +2,16 @@
 
 Qué cambia en cada versión de los datos. Para fijar una versión, usa `@vX.Y.Z` en lugar de `@main` en la URL (ver [Versiones y compatibilidad](README.md#-versiones-y-compatibilidad)).
 
+## 0.3.1 · 2026-10-21
+
+### Datos nuevos
+
+- `9205`: Ahorro, confirmada también en Banco Metropolitano con una tarjeta real. Gracias a [@xero-q](https://github.com/xero-q) ([#18](https://github.com/qvapay/cuban_cards_prefixes/issues/18)), que la reportó desde el [Explorador de tarjetas cubanas](https://rblez.github.io/explorador-tarjetas-cubanas/).
+
+### Compatibilidad
+
+- Los patrones no cambian: ya aceptaban cualquier banco RED para cualquier producto RED.
+
 ## 0.3.0 · 2026-10-21
 
 ### Novedades

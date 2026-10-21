@@ -1,6 +1,6 @@
 {
   "$schema": "./schema.json",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "updated_at": "2026-10-21",
   "country": "CU",
   "card_length": 16,
@@ -53,8 +53,8 @@
     { "prefix": "9245", "network": "RED", "currency": "USD", "mlc_backed": true, "product": null, "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
     { "prefix": "9250", "network": "RED", "currency": "USD", "mlc_backed": true, "product": "Cooperativas / MIPYMES", "aliases": [], "issuers": [], "sources": ["community_catalog"], "notes": null },
     { "prefix": "9760", "network": null, "currency": "USD", "mlc_backed": false, "product": "Clásica", "aliases": [], "issuers": ["FINCIMEX"], "variants": [
-      { "prefix": "976004", "product": "Clásica empresarial", "aliases": ["ClásicaEmpresarial"], "sources": ["cubadebate_clasica_empresarial"], "notes": "El producto está confirmado; el prefijo 976004 está pendiente de confirmar con una tarjeta o una fuente pública." }
-    ], "sources": ["community_catalog", "cardholder_report"], "notes": "No sigue la estructura RED: los dígitos 5–8 no son un código de banco. Los dígitos 5–6 distinguen 976003 (Clásica, reportada en el PR #6) de 976004 (Clásica empresarial, pendiente de confirmar)." }
+      { "prefix": "976004", "product": "Clásica Empresarial", "aliases": [], "sources": ["cubadebate_clasica_empresarial"], "notes": "CIMEX confirma que el producto existe, pero no publica su prefijo. El 976004 sale de la lógica de Transfermóvil analizada en el issue #5 y lo aporta el PR #7. Falta confirmarlo con una tarjeta." }
+    ], "sources": ["community_catalog", "cardholder_report"], "notes": "No sigue la estructura RED: los dígitos 5–8 no son un código de banco. Los dígitos 5–6 distinguen 976003 (Clásica, reportada en el issue #5 y en el PR #6) de 976004 (Clásica Empresarial)." }
   ],
   "sources": [
     { "id": "bandec_post", "short": "B", "kind": "social_post", "title": "¿Sabías que los dígitos de tu tarjeta Bandec revelan su propósito?", "url": null, "notes": "Publicación atribuida a BANDEC sobre los dígitos 3–4 de sus tarjetas." },

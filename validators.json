@@ -1,6 +1,6 @@
 {
   "generated_from": "prefixes.json",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "updated_at": "2026-10-21",
   "card_length": 16,
   "luhn": true,
@@ -25,10 +25,10 @@
   },
   "variants": {
     "976004": {
-      "issuer": "FINCIMEX",
-      "product": "Clásica empresarial",
-      "aliases": [
-        "ClásicaEmpresarial"
+      "product": "Clásica Empresarial",
+      "aliases": [],
+      "issuers": [
+        "FINCIMEX"
       ]
     }
   }

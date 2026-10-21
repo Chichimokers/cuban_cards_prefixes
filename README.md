@@ -102,7 +102,7 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 | **`9212`** | Trabajadores por cuenta propia (TCP) | BANDEC | B · C |
 | **`9213`** | Trabajadores por cuenta propia (TCP) | BANDEC | B · C |
 | **`9216`** | Subsidios | BANDEC | B · C |
-| **`9224`** | Nómina, fondos, ahorro | BANDEC | B · C |
+| **`9224`** | Nómina, fondos, ahorro ² | BANDEC, Metropolitano | B · C · T |
 | **`9227`** | Nómina, fondos, ahorro | BANDEC | B · C |
 | **`9233`** | MIPYMES / cooperativas no agropecuarias | BANDEC | B · C |
 | **`9234`** | Nómina | BANDEC, Metropolitano | C · T |
@@ -112,6 +112,8 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 | **`9248`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9248) | — | C |
 
 > ¹ **`9200`**: El catálogo comunitario la describe como «Tarjeta en CUP», sin propósito concreto.
+>
+> ² **`9224`**: Una tarjeta real con dígitos 9224 9598 confirma que también se emite en Banco Metropolitano (issue #10).
 
 ### 💵 USD con respaldo en MLC
 

@@ -92,7 +92,7 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 
 | Prefijo | Producto | Confirmado en | Fuentes |
 |:-:|---|---|:-:|
-| **`9200`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9200) ¹ | — | C |
+| **`9200`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9200) ¹ | BANDEC | C · T |
 | **`9202`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9202) | — | C |
 | **`9204`** | Nómina, fondos, ahorro | BANDEC | B · C |
 | **`9205`** | Ahorro ² | BANDEC, Metropolitano | B · C · T |
@@ -111,7 +111,7 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 | **`9244`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9244) | — | C |
 | **`9248`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9248) | — | C |
 
-> ¹ **`9200`**: El catálogo comunitario la describe como «Tarjeta en CUP», sin propósito concreto.
+> ¹ **`9200`**: El catálogo comunitario la describe como «Tarjeta en CUP», sin propósito concreto. Una tarjeta real con dígitos 9200 0699 confirma que se emite en BANDEC (issue #9).
 >
 > ² **`9205`**: Banco Metropolitano confirmado por un titular en el issue #18.
 

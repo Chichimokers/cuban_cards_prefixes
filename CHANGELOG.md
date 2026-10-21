@@ -2,6 +2,12 @@
 
 Qué cambia en cada versión de los datos. Para fijar una versión, usa `@vX.Y.Z` en lugar de `@main` en la URL (ver [Versiones y compatibilidad](README.md#-versiones-y-compatibilidad)).
 
+## 0.3.1 · 2026-10-21
+
+### Datos nuevos
+
+- `9227`: Nómina, fondos, ahorro confirmada también en Banco Metropolitano (`9598`) con una tarjeta real reportada en el [#8](https://github.com/qvapay/cuban_cards_prefixes/issues/8). No cambia lo que aceptan los patrones: `issuers.METROPOLITANO` ya aceptaba `9227 9598`.
+
 ## 0.3.0 · 2026-10-21
 
 ### Novedades

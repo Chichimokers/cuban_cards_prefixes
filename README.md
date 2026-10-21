@@ -134,9 +134,9 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 
 | Prefijo | Producto | Confirmado en | Fuentes |
 |:-:|---|---|:-:|
-| **`9760`** | Clásica ¹ | FINCIMEX | C |
+| **`9760`** | Clásica · `976004` Clásica empresarial ¹ | FINCIMEX | C · T · CE |
 
-> ¹ **`9760`**: No sigue la estructura RED: los dígitos 5–8 no son un código de banco.
+> ¹ **`9760`**: No sigue la estructura RED: los dígitos 5–8 no son un código de banco. Los dígitos 5–6 distinguen 976003 (Clásica, reportada en el PR #6) de 976004 (Clásica empresarial, pendiente de confirmar).
 <!-- prefixes:end -->
 
 **Confirmado en** son los bancos en los que una fuente confirma ese producto. No es una lista cerrada: el mismo producto puede existir en otros bancos, y los validadores lo aceptan en cualquier banco conocido. Las letras de **Fuentes** se explican en [Fuentes](#-fuentes).
@@ -361,8 +361,9 @@ https://cdn.jsdelivr.net/gh/qvapay/cuban_cards_prefixes@v0.2.0/validators.json
 |:-:|---|---|
 | **B** | ¿Sabías que los dígitos de tu tarjeta Bandec revelan su propósito? | Publicación atribuida a BANDEC sobre los dígitos 3–4 de sus tarjetas. |
 | **C** | Cuban Bank Card Prefixes v1.0.0 (2026-06-20) | Catálogo comunitario. Para la estructura del número cita el documento «Tomo 2 Digital». |
-| **T** | Titulares de tarjeta | Titulares que confirman el código de banco de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598), las tarjetas BANDEC 9210 y 9211, la 9234 de nómina en BANDEC y Banco Metropolitano, y la 9238 de ahorro en BPA (issues #1, #2 y #4). |
+| **T** | Titulares de tarjeta | Titulares que confirman el código de banco de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598), las tarjetas BANDEC 9210 y 9211, la 9234 de nómina en BANDEC y Banco Metropolitano, la 9238 de ahorro en BPA y la Clásica 976003 (issues #1, #2 y #4; PR #6). |
 | **F** | [Kubaforum: «Überweisung mit Sparkasse auf BPA-Konto»](https://www.kubaforum.eu/artikel/ueberweisung-mit-sparkasse-auf-bpa-konto.35643/) | Hilo de foro en alemán (diciembre de 2023). Da los dígitos 5–8 de BANDEC (0699), BPA (1299) y Banco Metropolitano (9598). Aportado en el issue #3. |
+| **CE** | [Informa Financiera CIMEX S.A. sobre ampliación de posibilidades de uso de tarjeta Clásica Empresarial](http://www.cubadebate.cu/noticias/2025/04/04/informa-financiera-cimex-s-a-sobre-ampliacion-de-posibilidades-de-uso-de-tarjeta-clasica-empresarial/) | Confirma la existencia de la Clásica Empresarial de FINCIMEX; no publica el prefijo 976004. |
 | **ISO** | [ISO/IEC 7812-1: números de identificación de tarjetas](https://en.wikipedia.org/wiki/ISO/IEC_7812) | El último dígito de un número de tarjeta es un dígito de control Luhn. |
 <!-- sources:end -->
 

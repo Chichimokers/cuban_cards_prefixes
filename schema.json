@@ -81,6 +81,22 @@
             "uniqueItems": true,
             "description": "Bancos en los que una fuente confirma este producto. No es una lista exclusiva."
           },
+          "variants": {
+            "type": "array",
+            "description": "Productos que comparten el prefijo y se distinguen por dígitos posteriores (p. ej. 976004, Clásica empresarial).",
+            "items": {
+              "type": "object",
+              "required": ["prefix", "product", "aliases", "sources"],
+              "additionalProperties": false,
+              "properties": {
+                "prefix": { "type": "string", "pattern": "^\\d{6}$", "description": "Dígitos 1–6." },
+                "product": { "type": "string" },
+                "aliases": { "type": "array", "items": { "type": "string" } },
+                "sources": { "$ref": "#/$defs/sourceList" },
+                "notes": { "type": ["string", "null"] }
+              }
+            }
+          },
           "sources": { "$ref": "#/$defs/sourceList" },
           "notes": { "type": ["string", "null"] }
         }

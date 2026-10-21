@@ -30,6 +30,18 @@ Never edit `validators.json` by hand. After changing `prefixes.json` or `build.m
 - The JS/Python/PHP samples in the README's "Validar un número" section and the Quick start are hand-written and use `validators.json` keys (`normalize.strip_pattern`, `patterns.*`, `issuers.*`). Renaming a key or a product name (which renames its pattern key) breaks them and external consumers.
 - The bank dropdown in `.github/ISSUE_TEMPLATE/prefijo.yml` and the `issuerName` display map in `build.mjs` (special-cases `METROPOLITANO`) are maintained by hand when issuers change.
 
+## Versioning and contributors
+
+- Consumers read the JSON files straight from `@main`. Never change the format or meaning of an existing field, nor rename or remove a `validators.json` key, without a major version and a notice. Add new things as optional fields or new keys. A data correction that changes what a pattern accepts is allowed in a minor version, but it must be listed in `CHANGELOG.md`.
+- On every data change:
+  - Bump `version` in `prefixes.json` and `package.json`, and update `updated_at`.
+  - Add a `CHANGELOG.md` entry in Spanish.
+  - After pushing, tag the commit `vX.Y.Z`. The README tells consumers to pin `@vX.Y.Z`.
+- `CHANGELOG.md` and the README's "Quién ha aportado" table are hand-written. When a contributor's data is integrated:
+  - Add them to the table.
+  - Credit their issue or PR in the source `notes` and in the changelog.
+  - When reusing work from their PR, prefer getting their PR merged over re-implementing it.
+
 ## Data conventions
 
 - Every prefix and issuer must cite at least one id from the `sources` list at the end of `prefixes.json`. Unknown values are `null` (e.g. `product`, `mlc_backed`) rather than guessed. Contradictions between sources go in `notes`.

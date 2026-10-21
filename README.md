@@ -11,7 +11,7 @@ Un catálogo abierto, con sus fuentes, y validadores listos para usar en cualqui
 ![prefijos](https://img.shields.io/badge/prefijos-27-0ea5e9) ![emisores](https://img.shields.io/badge/emisores-5-6366f1) ![versión](https://img.shields.io/badge/versi%C3%B3n-0.2.0-22c55e) ![dependencias](https://img.shields.io/badge/dependencias-0-f59e0b) [![licencia](https://img.shields.io/badge/licencia-MIT-64748b)](LICENSE) [![check](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml/badge.svg)](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml)
 <!-- badges:end -->
 
-[Inicio rápido](#-inicio-rápido) · [Anatomía](#-anatomía-de-una-tarjeta) · [Prefijos](#-prefijos) · [Validar](#-validar-un-número) · [Formato](#-formato-de-los-datos) · [Contribuir](#-contribuir) · [English](#-english)
+[Inicio rápido](#-inicio-rápido) · [Anatomía](#-anatomía-de-una-tarjeta) · [Prefijos](#-prefijos) · [Validar](#-validar-un-número) · [Formato](#-formato-de-los-datos) · [Versiones](#-versiones-y-compatibilidad) · [Contribuir](#-contribuir) · [English](#-english)
 
 </div>
 
@@ -48,13 +48,14 @@ new RegExp(v.issuers.BANDEC).test(n)   // true: es de BANDEC
 // Falta el dígito de control: ver «Validar un número»
 ```
 
-`@main` siempre trae la última versión. Para fijar una, cambia `@main` por un commit o una etiqueta.
+`@main` siempre trae la última versión. Para que tu integración no cambie sin que lo decidas tú, fija una versión: `@v0.2.0` en lugar de `@main`. Ver [Versiones y compatibilidad](#-versiones-y-compatibilidad).
 
 | Fichero | Qué contiene |
 |---|---|
 | [`prefixes.json`](prefixes.json) | El catálogo: estructura del número, bancos, prefijos con su producto y su moneda, y fuentes. Es el único fichero que se edita a mano. |
 | [`validators.json`](validators.json) | Expresiones regulares generadas a partir del catálogo: por moneda, por banco y para la Clásica. |
 | [`schema.json`](schema.json) | El esquema de `prefixes.json` (JSON Schema 2020-12). |
+| [`CHANGELOG.md`](CHANGELOG.md) | Qué cambió en cada versión y si afecta a lo que aceptan los patrones. |
 
 ## 🔢 Anatomía de una tarjeta
 
@@ -336,6 +337,23 @@ Cada prefijo de `prefixes.json` tiene esta forma:
 
 En `issuers`, el campo `code` son los dígitos del banco a partir de la posición 5. Si tiene menos de 4 dígitos, el resto todavía no se conoce.
 
+## 🔖 Versiones y compatibilidad
+
+Hay apps que leen estos ficheros directamente desde `@main`, así que cuidamos qué cambia de una versión a otra. La versión está en `prefixes.json` y en `validators.json`, y cada cambio se anota en el [registro de cambios](CHANGELOG.md).
+
+| Cambio | ¿Afecta a tu integración? |
+|---|---|
+| Prefijos, bancos, fuentes o campos opcionales nuevos, o un `product` que deja de ser `null` | No |
+| Claves nuevas en `validators.json` | No |
+| Una corrección de datos que cambia lo que aceptan los patrones | Puede: un número que antes pasaba deja de pasar, o al revés. Se anota en el registro de cambios. Por ejemplo, en la 0.2.0 Banco Metropolitano pasó de `95··` a `9598`. |
+| Cambiar el formato o el significado de un campo, o renombrar o quitar una clave | Sí. Lo evitamos, y si algún día hace falta se avisará con una versión mayor. |
+
+Para que nada cambie sin que lo decidas tú, fija una versión en la URL:
+
+```text
+https://cdn.jsdelivr.net/gh/qvapay/cuban_cards_prefixes@v0.2.0/validators.json
+```
+
 ## 📚 Fuentes
 
 <!-- sources:start -->
@@ -354,17 +372,35 @@ En `issuers`, el campo `code` son los dígitos del banco a partir de la posició
 - Los dígitos 7–8 de BICSA.
 - Si `9240` («Tropical») es una cuenta en USD con respaldo en MLC, como la agrupa BANDEC, o un prepago en USD, como dice el catálogo comunitario.
 - La entidad emisora de la Clásica y qué significan sus dígitos 5–8.
+- Si `976004` es la Clásica Empresarial, como indica la lógica de Transfermóvil analizada en el [#5](https://github.com/qvapay/cuban_cards_prefixes/issues/5). El `976003` de la Clásica lo reportan el #5 y el [#6](https://github.com/qvapay/cuban_cards_prefixes/pull/6).
 - El enlace a la publicación de BANDEC.
 
 ¿Tienes una de esas tarjetas o una fuente? [Cuéntanoslo](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml).
+
+## 🙌 Quién ha aportado
+
+Este catálogo crece con lo que comparte la comunidad. Gracias a:
+
+| Quién | Qué aportó |
+|---|---|
+| [@edyermorales](https://github.com/edyermorales) | La `9234` de nómina en BANDEC y la `9238` de ahorro en BPA ([#1](https://github.com/qvapay/cuban_cards_prefixes/issues/1), [#2](https://github.com/qvapay/cuban_cards_prefixes/issues/2)). |
+| [@armandofcom](https://github.com/armandofcom) | El código `9598` de Banco Metropolitano, con el hilo de Kubaforum que lo documenta ([#3](https://github.com/qvapay/cuban_cards_prefixes/issues/3)). |
+| [@Y4S3L23](https://github.com/Y4S3L23) | La confirmación, con su propia tarjeta, del `9598` y de la `9234` en Banco Metropolitano ([#4](https://github.com/qvapay/cuban_cards_prefixes/issues/4)). |
+| [@livegnik97](https://github.com/livegnik97) | La pista de la Clásica Empresarial (`976004`) a partir de la lógica de Transfermóvil ([#5](https://github.com/qvapay/cuban_cards_prefixes/issues/5)). |
+
+¿Tienes una tarjeta que falta o una fuente? [Cuéntanoslo](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml) y apareces aquí.
 
 ## 🤝 Contribuir
 
 - **Con un issue**: el formulario de [nuevo prefijo o corrección](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml) pide los 8 primeros dígitos, el banco, la moneda, el producto y la fuente.
 - **Con un pull request**:
-  1. Edita `prefixes.json` y cita la fuente de cada dato: un enlace, un documento o tu propia tarjeta.
-  2. Ejecuta `npm run build`. Regenera `validators.json` y las tablas de este README.
-  3. Ejecuta `npm run check`. Comprueba que el catálogo es coherente y que lo generado está al día. Lo mismo corre en cada pull request.
+  1. Parte de la última versión de `main` y trata un solo tema por pull request: así se revisa y se integra antes.
+  2. Edita `prefixes.json` y cita la fuente de cada dato: un enlace al documento original, un documento o tu propia tarjeta. Tiene que ser algo que otra persona pueda comprobar.
+  3. No cambies el formato ni el significado de los campos que ya existen, ni renombres claves de `validators.json`: hay apps que dependen de ellos. Si hace falta algo nuevo, añádelo como campo opcional. Ver [Versiones y compatibilidad](#-versiones-y-compatibilidad).
+  4. Ejecuta `npm run build`. Regenera `validators.json` y las tablas de este README.
+  5. Ejecuta `npm run check`. Comprueba que el catálogo es coherente y que lo generado está al día. Lo mismo corre en cada pull request.
+
+Cuando integramos tu aporte, apareces en [Quién ha aportado](#-quién-ha-aportado).
 
 > [!WARNING]
 > **Nunca publiques un número de tarjeta completo** en un issue, un pull request o un commit. Para identificar un producto bastan los 8 primeros dígitos.
@@ -384,6 +420,8 @@ Cards on the Cuban **RED** network have 16 digits: digits 1–2 are the network 
 
 To validate a number: strip spaces, hyphens and dots (`normalize.strip_pattern`), match it against a pattern and check the Luhn digit. See the code samples above.
 
+To avoid unannounced changes, pin a version with `@v0.2.0` instead of `@main`. Every change is listed in [CHANGELOG.md](CHANGELOG.md).
+
 This is a community catalog, not an official source. Never post a full card number in an issue or pull request: the first 8 digits are enough.
 
 </details>
@@ -391,5 +429,5 @@ This is a community catalog, not an official source. Never post a full card numb
 ---
 
 <div align="center">
-<sub>Hecho con 💙 por <a href="https://qvapay.com">QvaPay</a> y la comunidad · <a href="LICENSE">Licencia MIT</a></sub>
+<sub>Hecho con 💙 por la comunidad · Mantenido por <a href="https://qvapay.com">QvaPay</a> · <a href="LICENSE">Licencia MIT</a></sub>
 </div>

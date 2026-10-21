@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": "github:qvapay/cuban_cards_prefixes",
   "scripts": {
-    "build": "node scripts/build.mjs",
+    "build": "node init && node scripts/build.mjs",
     "check": "node scripts/build.mjs --check"
   }
 }

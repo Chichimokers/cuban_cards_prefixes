@@ -8,7 +8,7 @@
 Un catálogo abierto, con sus fuentes, y validadores listos para usar en cualquier lenguaje.
 
 <!-- badges:start -->
-![prefijos](https://img.shields.io/badge/prefijos-27-0ea5e9) ![emisores](https://img.shields.io/badge/emisores-5-6366f1) ![versión](https://img.shields.io/badge/versi%C3%B3n-0.2.0-22c55e) ![dependencias](https://img.shields.io/badge/dependencias-0-f59e0b) [![licencia](https://img.shields.io/badge/licencia-MIT-64748b)](LICENSE) [![check](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml/badge.svg)](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml)
+![prefijos](https://img.shields.io/badge/prefijos-27-0ea5e9) ![emisores](https://img.shields.io/badge/emisores-5-6366f1) ![versión](https://img.shields.io/badge/versi%C3%B3n-0.3.0-22c55e) ![dependencias](https://img.shields.io/badge/dependencias-0-f59e0b) [![licencia](https://img.shields.io/badge/licencia-MIT-64748b)](LICENSE) [![check](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml/badge.svg)](https://github.com/qvapay/cuban_cards_prefixes/actions/workflows/check.yml)
 <!-- badges:end -->
 
 [Inicio rápido](#-inicio-rápido) · [Anatomía](#-anatomía-de-una-tarjeta) · [Prefijos](#-prefijos) · [Validar](#-validar-un-número) · [Formato](#-formato-de-los-datos) · [Versiones](#-versiones-y-compatibilidad) · [Contribuir](#-contribuir) · [English](#-english)
@@ -48,12 +48,12 @@ new RegExp(v.issuers.BANDEC).test(n)   // true: es de BANDEC
 // Falta el dígito de control: ver «Validar un número»
 ```
 
-`@main` siempre trae la última versión. Para que tu integración no cambie sin que lo decidas tú, fija una versión: `@v0.2.0` en lugar de `@main`. Ver [Versiones y compatibilidad](#-versiones-y-compatibilidad).
+`@main` siempre trae la última versión. Para que tu integración no cambie sin que lo decidas tú, fija una versión: `@v0.3.0` en lugar de `@main`. Ver [Versiones y compatibilidad](#-versiones-y-compatibilidad).
 
 | Fichero | Qué contiene |
 |---|---|
 | [`prefixes.json`](prefixes.json) | El catálogo: estructura del número, bancos, prefijos con su producto y su moneda, y fuentes. Es el único fichero que se edita a mano. |
-| [`validators.json`](validators.json) | Expresiones regulares generadas a partir del catálogo: por moneda, por banco y para la Clásica. |
+| [`validators.json`](validators.json) | Expresiones regulares generadas a partir del catálogo: por moneda, por banco y para la Clásica y sus variantes. |
 | [`schema.json`](schema.json) | El esquema de `prefixes.json` (JSON Schema 2020-12). |
 | [`CHANGELOG.md`](CHANGELOG.md) | Qué cambió en cada versión y si afecta a lo que aceptan los patrones. |
 
@@ -71,7 +71,7 @@ Las tarjetas de la red **RED** tienen 16 dígitos:
 
 Con los **4 primeros dígitos** ya se sabe el producto y la moneda. Con los **8 primeros**, también el banco.
 
-La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no son un código de banco.
+La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no son un código de banco. Sus dígitos 5–6 distinguen productos: `976004` es la Clásica Empresarial.
 
 ## 🏦 Bancos
 
@@ -134,9 +134,9 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 
 | Prefijo | Producto | Confirmado en | Fuentes |
 |:-:|---|---|:-:|
-| **`9760`** | Clásica · `976004` Clásica empresarial ¹ | FINCIMEX | C · T · CE |
+| **`9760`** | Clásica · `976004` Clásica Empresarial ¹ | FINCIMEX | C · T · CE |
 
-> ¹ **`9760`**: No sigue la estructura RED: los dígitos 5–8 no son un código de banco. Los dígitos 5–6 distinguen 976003 (Clásica, reportada en el PR #6) de 976004 (Clásica empresarial, pendiente de confirmar).
+> ¹ **`9760`**: No sigue la estructura RED: los dígitos 5–8 no son un código de banco. Los dígitos 5–6 distinguen 976003 (Clásica, reportada en el issue #5 y en el PR #6) de 976004 (Clásica Empresarial).
 <!-- prefixes:end -->
 
 **Confirmado en** son los bancos en los que una fuente confirma ese producto. No es una lista cerrada: el mismo producto puede existir en otros bancos, y los validadores lo aceptan en cualquier banco conocido. Las letras de **Fuentes** se explican en [Fuentes](#-fuentes).
@@ -164,8 +164,11 @@ flowchart LR
 | `patterns.cup` | Tarjetas en CUP |
 | `patterns.usd` | Tarjetas en USD, incluida la Clásica |
 | `patterns.usd_mlc` | Tarjetas en USD con respaldo en MLC |
-| `patterns.clasica` | Tarjeta Clásica |
+| `patterns.clasica` | Tarjeta Clásica, incluida la Clásica Empresarial |
+| `patterns.clasica_empresarial` | Clásica Empresarial (`976004`) |
 | `issuers.<BANCO>` | Tarjetas RED de ese banco |
+
+Además, `variants` da el producto de los prefijos de 6 dígitos que se distinguen de su prefijo de 4, como `976004`, la Clásica Empresarial.
 
 Los patrones usan `[0-9]` en lugar de `\d`, porque en Python y en otros motores `\d` también acepta dígitos que no son ASCII. Funcionan igual en JavaScript, Python, PHP, Java, Go, Dart y Ruby.
 
@@ -190,7 +193,7 @@ const luhn = (n) => {
 
 const normalize = (raw) => String(raw ?? '').replace(new RegExp(v.normalize.strip_pattern, 'g'), '')
 
-// kind: any | red | cup | usd | usd_mlc | clasica
+// kind: any | red | cup | usd | usd_mlc | clasica | clasica_empresarial
 const isCubanCard = (raw, kind = 'any') => {
   const n = normalize(raw)
   return new RegExp(v.patterns[kind]).test(n) && luhn(n)
@@ -202,7 +205,8 @@ const describe = (raw) => {
   if (!isCubanCard(n)) return null
   const p = catalog.prefixes.find(p => p.prefix === n.slice(0, 4))
   const bank = Object.keys(v.issuers).find(id => new RegExp(v.issuers[id]).test(n)) ?? p.issuers[0] ?? null
-  return { prefix: p.prefix, currency: p.currency, mlc_backed: p.mlc_backed, product: p.product, bank }
+  const product = v.variants?.[n.slice(0, 6)]?.product ?? p.product
+  return { prefix: p.prefix, currency: p.currency, mlc_backed: p.mlc_backed, product, bank }
 }
 
 describe('9205 0699 0000 0000')
@@ -247,11 +251,12 @@ def describe(raw):
         return None
     p = next(p for p in catalog['prefixes'] if p['prefix'] == n[:4])
     bank = next((bank for bank, pattern in v['issuers'].items() if re.match(pattern, n)), None)
+    variant = v.get('variants', {}).get(n[:6], {})
     return {
         'prefix': p['prefix'],
         'currency': p['currency'],
         'mlc_backed': p['mlc_backed'],
-        'product': p['product'],
+        'product': variant.get('product', p['product']),
         'bank': bank or next(iter(p['issuers']), None),
     }
 
@@ -283,7 +288,7 @@ function normalizeCard(string $raw, array $v): string {
     return preg_replace('/' . $v['normalize']['strip_pattern'] . '/', '', $raw);
 }
 
-// $kind: any | red | cup | usd | usd_mlc | clasica
+// $kind: any | red | cup | usd | usd_mlc | clasica | clasica_empresarial
 function isCubanCard(string $raw, array $v, string $kind = 'any'): bool {
     $n = normalizeCard($raw, $v);
     return preg_match('/' . $v['patterns'][$kind] . '/', $n) === 1 && luhn($n);
@@ -332,6 +337,7 @@ Cada prefijo de `prefixes.json` tiene esta forma:
 | `product` | Producto o propósito. `null` si todavía no se ha identificado |
 | `aliases` | Otros nombres con los que se conoce |
 | `issuers` | Bancos en los que una fuente confirma el producto |
+| `variants` | Opcional. Prefijos de 6 dígitos con otro producto, cada uno con `prefix`, `product`, `aliases`, `sources` y `notes`. Hoy solo la Clásica Empresarial (`976004`) |
 | `sources` | Fuentes de ese dato (lista `sources` al final del fichero) |
 | `notes` | Aclaraciones y contradicciones entre fuentes |
 
@@ -351,7 +357,7 @@ Hay apps que leen estos ficheros directamente desde `@main`, así que cuidamos q
 Para que nada cambie sin que lo decidas tú, fija una versión en la URL:
 
 ```text
-https://cdn.jsdelivr.net/gh/qvapay/cuban_cards_prefixes@v0.2.0/validators.json
+https://cdn.jsdelivr.net/gh/qvapay/cuban_cards_prefixes@v0.3.0/validators.json
 ```
 
 ## 📚 Fuentes
@@ -373,7 +379,7 @@ https://cdn.jsdelivr.net/gh/qvapay/cuban_cards_prefixes@v0.2.0/validators.json
 - Los dígitos 7–8 de BICSA.
 - Si `9240` («Tropical») es una cuenta en USD con respaldo en MLC, como la agrupa BANDEC, o un prepago en USD, como dice el catálogo comunitario.
 - La entidad emisora de la Clásica y qué significan sus dígitos 5–8.
-- Si `976004` es la Clásica Empresarial, como indica la lógica de Transfermóvil analizada en el [#5](https://github.com/qvapay/cuban_cards_prefixes/issues/5). El `976003` de la Clásica lo reportan el #5 y el [#6](https://github.com/qvapay/cuban_cards_prefixes/pull/6).
+- Una tarjeta Clásica Empresarial que confirme el `976004`. Hoy sale de la lógica de Transfermóvil analizada en el [#5](https://github.com/qvapay/cuban_cards_prefixes/issues/5).
 - El enlace a la publicación de BANDEC.
 
 ¿Tienes una de esas tarjetas o una fuente? [Cuéntanoslo](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml).
@@ -388,6 +394,8 @@ Este catálogo crece con lo que comparte la comunidad. Gracias a:
 | [@armandofcom](https://github.com/armandofcom) | El código `9598` de Banco Metropolitano, con el hilo de Kubaforum que lo documenta ([#3](https://github.com/qvapay/cuban_cards_prefixes/issues/3)). |
 | [@Y4S3L23](https://github.com/Y4S3L23) | La confirmación, con su propia tarjeta, del `9598` y de la `9234` en Banco Metropolitano ([#4](https://github.com/qvapay/cuban_cards_prefixes/issues/4)). |
 | [@livegnik97](https://github.com/livegnik97) | La pista de la Clásica Empresarial (`976004`) a partir de la lógica de Transfermóvil ([#5](https://github.com/qvapay/cuban_cards_prefixes/issues/5)). |
+| [@drlorente97](https://github.com/drlorente97) | El `976003` de la Clásica ([#6](https://github.com/qvapay/cuban_cards_prefixes/pull/6)). |
+| [@Chichimokers](https://github.com/Chichimokers) | Las variantes por los dígitos 5–6 y la Clásica Empresarial (`976004`), con el aviso de CIMEX que la documenta ([#7](https://github.com/qvapay/cuban_cards_prefixes/pull/7)). |
 
 ¿Tienes una tarjeta que falta o una fuente? [Cuéntanoslo](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml) y apareces aquí.
 
@@ -414,14 +422,14 @@ Cuando integramos tu aporte, apareces en [Quién ha aportado](#-quién-ha-aporta
 An open catalog of **Cuban bank card prefixes**: which product, currency and bank sit behind the first digits of a Cuban card, plus ready-to-use validators for any language.
 
 - [`prefixes.json`](prefixes.json): the catalog (card structure, banks, prefixes and sources). Texts are in Spanish.
-- [`validators.json`](validators.json): regular expressions generated from the catalog, by currency (`cup`, `usd`, `usd_mlc`, `clasica`, `any`) and by bank (`BANDEC`, `BPA`, `METROPOLITANO`, `BICSA`).
+- [`validators.json`](validators.json): regular expressions generated from the catalog, by currency (`cup`, `usd`, `usd_mlc`, `clasica`, `clasica_empresarial`, `any`) and by bank (`BANDEC`, `BPA`, `METROPOLITANO`, `BICSA`), plus a `variants` map for 6-digit prefixes such as `976004` (Clásica Empresarial).
 - [`schema.json`](schema.json): JSON Schema 2020-12 for `prefixes.json`.
 
 Cards on the Cuban **RED** network have 16 digits: digits 1–2 are the network (`92`), 3–4 the product and currency, 5–8 the bank (`0699` BANDEC, `1299` BPA, `9598` Banco Metropolitano), 9–15 the account and 16 a Luhn check digit.
 
 To validate a number: strip spaces, hyphens and dots (`normalize.strip_pattern`), match it against a pattern and check the Luhn digit. See the code samples above.
 
-To avoid unannounced changes, pin a version with `@v0.2.0` instead of `@main`. Every change is listed in [CHANGELOG.md](CHANGELOG.md).
+To avoid unannounced changes, pin a version with `@v0.3.0` instead of `@main`. Every change is listed in [CHANGELOG.md](CHANGELOG.md).
 
 This is a community catalog, not an official source. Never post a full card number in an issue or pull request: the first 8 digits are enough.
 

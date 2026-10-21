@@ -95,7 +95,7 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 | **`9200`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9200) ¹ | — | C |
 | **`9202`** | _Sin identificar_ · [¿la tienes?](https://github.com/qvapay/cuban_cards_prefixes/issues/new?template=prefijo.yml&prefix=9202) | — | C |
 | **`9204`** | Nómina, fondos, ahorro | BANDEC | B · C |
-| **`9205`** | Ahorro ² | BANDEC, Metropolitano | B · C · T |
+| **`9205`** | Ahorro ² | BANDEC, BPA, Metropolitano | B · C · T |
 | **`9206`** | Jubilación | BANDEC | B · C |
 | **`9210`** | Colaboradores | BANDEC | B · C · T |
 | **`9211`** | Colaboradores | BANDEC | B · C · T |
@@ -113,7 +113,7 @@ La tarjeta **Clásica** (`9760`) no sigue esta estructura: sus dígitos 5–8 no
 
 > ¹ **`9200`**: El catálogo comunitario la describe como «Tarjeta en CUP», sin propósito concreto.
 >
-> ² **`9205`**: Banco Metropolitano confirmado por un titular en el issue #18.
+> ² **`9205`**: Banco Metropolitano confirmado por un titular en el issue #18. Una tarjeta real con dígitos 9205 1299 confirma que también se emite en BPA (issue #13).
 
 ### 💵 USD con respaldo en MLC
 
